@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Страница не найдена</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <canvas id="particles"></canvas>
+
+  <section class="error-page">
+    <div class="error-content">
+      <span class="error-code">404</span>
+      <h1>Страница не найдена</h1>
+      <p>Кажется, эта страница ушла в другой дизайн-макет</p>
+      <a href="index.html" class="btn btn-primary">Вернуться домой</a>
+    </div>
+    <div class="error-glitch"></div>
+  </section>
+
+  <script>
+    const cursorGlow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    class P { constructor() { this.reset(); }
+      reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2+0.5; this.vx=(Math.random()-0.5)*0.3; this.vy=(Math.random()-0.5)*0.3; this.o=Math.random()*0.4+0.1; }
+      update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
+      draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fillStyle=`rgba(139,92,246,${this.o})`; ctx.fill(); }
+    }
+    for(let i=0;i<50;i++) particles.push(new P());
+    function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); }
+    anim();
+  </script>
+</body>
+</html>

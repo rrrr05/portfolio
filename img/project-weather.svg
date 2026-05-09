@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#g2)"/>
+  <rect x="160" y="30" width="280" height="340" rx="24" fill="#1e293b" opacity="0.8"/>
+  <rect x="180" y="50" width="240" height="30" rx="8" fill="#0f172a"/>
+  <circle cx="196" cy="65" r="6" fill="#38bdf8"/>
+  <text x="220" y="69" fill="#94a3b8" font-family="sans-serif" font-size="10">Москва</text>
+  <text x="300" y="140" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="56" font-weight="700">18°</text>
+  <text x="300" y="170" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="12">Переменная облачность</text>
+  <rect x="190" y="190" width="110" height="70" rx="12" fill="rgba(56,189,248,0.1)"/>
+  <rect x="310" y="190" width="110" height="70" rx="12" fill="rgba(56,189,248,0.1)"/>
+  <text x="245" y="215" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8">ВЕТЕР</text>
+  <text x="245" y="240" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="16" font-weight="600">12 км/ч</text>
+  <text x="365" y="215" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8">ВЛАЖНОСТЬ</text>
+  <text x="365" y="240" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="16" font-weight="600">68%</text>
+  <rect x="190" y="275" width="60" height="70" rx="12" fill="rgba(56,189,248,0.08)"/>
+  <rect x="260" y="275" width="60" height="70" rx="12" fill="rgba(56,189,248,0.08)"/>
+  <rect x="330" y="275" width="60" height="70" rx="12" fill="rgba(56,189,248,0.08)"/>
+  <rect x="400" y="275" width="60" height="70" rx="12" fill="rgba(56,189,248,0.08)"/>
+  <text x="220" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">14:00</text>
+  <text x="220" y="330" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="13">20°</text>
+  <text x="290" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">15:00</text>
+  <text x="290" y="330" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="13">22°</text>
+  <text x="360" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">16:00</text>
+  <text x="360" y="330" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="13">21°</text>
+  <text x="430" y="310" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">17:00</text>
+  <text x="430" y="330" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="13">19°</text>
+</svg>

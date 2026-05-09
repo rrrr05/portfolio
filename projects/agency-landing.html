@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA — Creative Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #050505; --text: #f5f5f5; --text-dim: #888; --accent: #ff4d00;
+      --accent-glow: rgba(255, 77, 0, 0.4); --font: "Space Grotesk", sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); overflow-x: hidden; cursor: none; }
+    a { color: inherit; text-decoration: none; }
+    .custom-cursor { position: fixed; width: 20px; height: 20px; border: 2px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, border-color 0.2s; mix-blend-mode: difference; }
+    .custom-cursor.hover { width: 50px; height: 50px; border-color: #fff; }
+    .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+    .hero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+    .hero-bg { position: absolute; inset: 0; overflow: hidden; }
+    .hero-bg::before { content: ""; position: absolute; width: 150%; height: 150%; top: -25%; left: -25%; background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, var(--accent) 60deg, transparent 120deg); animation: rotate-bg 12s linear infinite; opacity: 0.15; }
+    @keyframes rotate-bg { to { transform: rotate(360deg); } }
+    .hero-content { text-align: center; position: relative; z-index: 1; }
+    .hero-tag { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .hero-title { font-family: "Syne", sans-serif; font-size: clamp(4rem, 12vw, 10rem); font-weight: 800; line-height: 0.9; letter-spacing: -4px; margin-bottom: 32px; }
+    .hero-title span { display: inline-block; transition: transform 0.3s; }
+    .hero-title span:hover { transform: translateY(-8px) rotate(-2deg); color: var(--accent); }
+    .hero-sub { font-size: 1.1rem; color: var(--text-dim); max-width: 400px; margin: 0 auto 40px; font-weight: 300; }
+    .btn-magnetic { display: inline-block; padding: 16px 40px; background: var(--accent); color: #fff; font-family: var(--font); font-weight: 600; font-size: 0.95rem; border: none; cursor: none; position: relative; overflow: hidden; transition: transform 0.3s; }
+    .btn-magnetic::before { content: ""; position: absolute; inset: 0; background: #fff; transform: translateY(100%); transition: transform 0.3s; }
+    .btn-magnetic:hover::before { transform: translateY(0); }
+    .btn-magnetic:hover { color: var(--bg); }
+    .btn-magnetic span { position: relative; z-index: 1; }
+    .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .scroll-indicator span { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim); }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(var(--accent), transparent); animation: pulse-line 2s infinite; }
+    @keyframes pulse-line { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    .services { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .section-title { font-family: "Syne", sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 64px; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+    .service-card { padding: 40px 32px; border: 1px solid #1a1a1a; border-radius: 20px; position: relative; overflow: hidden; transition: transform 0.4s, border-color 0.4s; cursor: none; }
+    .service-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-glow), transparent); opacity: 0; transition: opacity 0.4s; }
+    .service-card:hover { transform: translateY(-8px); border-color: var(--accent); }
+    .service-card:hover::before { opacity: 1; }
+    .service-num { font-size: 4rem; font-weight: 700; color: #1a1a1a; line-height: 1; margin-bottom: 16px; position: relative; }
+    .service-card:hover .service-num { color: rgba(255, 77, 0, 0.2); }
+    .service-name { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; position: relative; }
+    .service-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; position: relative; }
+    .marquee { padding: 80px 0; overflow: hidden; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
+    .marquee-track { display: flex; gap: 64px; animation: marquee 20s linear infinite; width: max-content; }
+    .marquee-item { font-family: "Syne", sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; white-space: nowrap; letter-spacing: -3px; color: transparent; -webkit-text-stroke: 1px #333; transition: color 0.3s, -webkit-text-stroke 0.3s; cursor: none; }
+    .marquee-item:hover { color: var(--accent); -webkit-text-stroke-color: var(--accent); }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .work { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+    .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .work-card { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3; cursor: none; }
+    .work-card:first-child { grid-row: span 2; aspect-ratio: auto; }
+    .work-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .work-card:hover img { transform: scale(1.08); }
+    .work-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,5,0.9), transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
+    .work-tag { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .work-name { font-size: 1.5rem; font-weight: 700; }
+    .footer-section { padding: 120px 24px; text-align: center; border-top: 1px solid #1a1a1a; }
+    .footer-cta { font-family: "Syne", sans-serif; font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; letter-spacing: -3px; margin-bottom: 40px; }
+    .footer-cta a { color: var(--text); transition: color 0.3s; cursor: none; }
+    .footer-cta a:hover { color: var(--accent); }
+    @media (max-width: 768px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card:first-child { grid-row: span 1; aspect-ratio: 4/3; }
+      .custom-cursor, .cursor-dot { display: none; }
+      body { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="custom-cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Creative Agency</div>
+      <h1 class="hero-title">
+        <span>N</span><span>O</span><span>V</span><span>A</span>
+      </h1>
+      <p class="hero-sub">Мы создаём цифровые продукты, которые невозможно забыть</p>
+      <a href="#work" class="btn-magnetic"><span>Наши работы</span></a>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="section-label">Что мы делаем</div>
+    <h2 class="section-title">Сервисы</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name">Брендинг</div>
+        <div class="service-desc">Создаём визуальную идентичность, которая выделяет бренд среди конкурентов и запоминается</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name">UI/UX Дизайн</div>
+        <div class="service-desc">Проектируем интерфейсы, в которых каждое действие интуитивно понятно и приносит удовольствие</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name">Веб-разработка</div>
+        <div class="service-desc">Превращаем дизайн в живые сайты с плавными анимациями и молниеносной скоростью</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">Дизайн</span>
+      <span class="marquee-item">•</span>
+      <span class="marquee-item">Код</span>
+      <span class="marquee-item">•</span>
+      <span class="marquee-item">Стратегия</span>
+      <span class="marquee-item">•</span>
+      <span class="marquee-item">Дизайн</span>
+      <span class="marquee-item">•</span>
+      <span class="marquee-item">Код</span>
+      <span class="marquee-item">•</span>
+      <span class="marquee-item">Стратегия</span>
+      <span class="marquee-item">•</span>
+    </div>
+  </div>
+
+  <section class="work" id="work">
+    <div class="section-label">Портфолио</div>
+    <h2 class="section-title">Избранные работы</h2>
+    <div class="work-grid">
+      <div class="work-card">
+        <img src="../img/project-zenith.svg" alt="Project">
+        <div class="work-overlay">
+          <div class="work-tag">Веб-дизайн</div>
+          <div class="work-name">Zenith Platform</div>
+        </div>
+      </div>
+      <div class="work-card">
+        <img src="../img/project-apex.svg" alt="Project">
+        <div class="work-overlay">
+          <div class="work-tag">Брендинг</div>
+          <div class="work-name">Apex Identity</div>
+        </div>
+      </div>
+      <div class="work-card">
+        <img src="../img/project-pulse.svg" alt="Project">
+        <div class="work-overlay">
+          <div class="work-tag">UI/UX</div>
+          <div class="work-name">Pulse App</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-section">
+    <div class="section-label">Контакты</div>
+    <div class="footer-cta"><a href="mailto:hello@nova.agency">Давайте<br>работать</a></div>
+    <a href="mailto:hello@nova.agency" class="btn-magnetic"><span>hello@nova.agency</span></a>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const dot = document.getElementById('cursorDot');
+    let cursorX = 0, cursorY = 0, dotX = 0, dotY = 0;
+
+    document.addEventListener('mousemove', e => { cursorX = e.clientX; cursorY = e.clientY; });
+
+    function animateCursor() {
+      dotX += (cursorX - dotX) * 0.5;
+      dotY += (cursorY - dotY) * 0.5;
+      dot.style.left = cursorX + 'px';
+      dot.style.top = cursorY + 'px';
+      cursor.style.left = dotX + 'px';
+      cursor.style.top = dotY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.querySelectorAll('a, button, .service-card, .work-card, .marquee-item, .hero-title span').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    document.querySelectorAll('.btn-magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.service-card, .work-card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px)';
+      el.style.transition = `opacity 0.6s ${i * 0.15}s, transform 0.6s ${i * 0.15}s`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

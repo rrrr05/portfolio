@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRISM — 3D Card Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c0c0c; --card-bg: #161616; --accent: #a855f7;
+      --accent2: #06b6d4; --accent3: #f43f5e; --accent4: #22c55e; --accent5: #f59e0b;
+      --text: #eee; --text-dim: #888; --font: "Space Grotesk", sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    .bg-orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: orb-float 12s ease-in-out infinite; }
+    .orb:nth-child(1) { width: 500px; height: 500px; top: -150px; left: -100px; background: var(--accent); }
+    .orb:nth-child(2) { width: 400px; height: 400px; bottom: -100px; right: -100px; background: var(--accent2); animation-delay: -4s; }
+    .orb:nth-child(3) { width: 350px; height: 350px; top: 50%; left: 50%; background: var(--accent3); animation-delay: -8s; }
+    @keyframes orb-float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -40px) scale(1.1); } 66% { transform: translate(-20px, 30px) scale(0.9); } }
+    .header { position: relative; z-index: 1; text-align: center; padding: 80px 20px 40px; }
+    .header h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; letter-spacing: -2px; margin-bottom: 12px; }
+    .header h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header p { color: var(--text-dim); font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+    .controls { position: relative; z-index: 1; display: flex; justify-content: center; gap: 12px; padding: 20px; flex-wrap: wrap; }
+    .view-btn { padding: 10px 24px; border-radius: 100px; border: 1px solid #2a2a2a; background: transparent; color: var(--text-dim); font-family: var(--font); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+    .view-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+    .view-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+    .gallery { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 40px; padding: 60px 20px 100px; min-height: 70vh; perspective: 1200px; }
+    .gallery.carousel-view { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+    .gallery.carousel-view::-webkit-scrollbar { display: none; }
+    .gallery.carousel-view .card { flex-shrink: 0; scroll-snap-align: center; }
+    .gallery.grid-view { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .gallery.grid-view .card { width: 100%; }
+    .card { width: 300px; height: 420px; position: relative; transform-style: preserve-3d; transition: transform 0.15s ease-out; cursor: pointer; }
+    .card-inner { width: 100%; height: 100%; position: relative; border-radius: 24px; overflow: hidden; background: var(--card-bg); border: 1px solid #222; transform-style: preserve-3d; }
+    .card-shine { position: absolute; inset: 0; border-radius: 24px; z-index: 3; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+    .card:hover .card-shine { opacity: 1; }
+    .card-img { width: 100%; height: 55%; object-fit: cover; display: block; }
+    .card-body { padding: 20px 24px; position: relative; }
+    .card-badge { display: inline-block; padding: 3px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .badge-design { background: rgba(168, 85, 247, 0.15); color: var(--accent); }
+    .badge-dev { background: rgba(6, 182, 212, 0.15); color: var(--accent2); }
+    .badge-brand { background: rgba(244, 63, 94, 0.15); color: var(--accent3); }
+    .badge-motion { background: rgba(34, 197, 94, 0.15); color: var(--accent4); }
+    .badge-photo { background: rgba(245, 158, 11, 0.15); color: var(--accent5); }
+    .card-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
+    .card-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+    .card-border { position: absolute; inset: -1px; border-radius: 24px; padding: 1px; background: linear-gradient(135deg, transparent 40%, var(--accent) 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 4; }
+    .card:hover .card-border { opacity: 1; }
+    .card-expanded { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+    .card-expanded.open { opacity: 1; pointer-events: all; }
+    .card-expanded-bg { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); }
+    .card-expanded-content { position: relative; max-width: 600px; width: 90%; background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #333; transform: scale(0.9); transition: transform 0.4s; }
+    .card-expanded.open .card-expanded-content { transform: scale(1); }
+    .expanded-img { width: 100%; height: 300px; object-fit: cover; }
+    .expanded-body { padding: 32px; }
+    .expanded-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; }
+    .expanded-desc { color: var(--text-dim); line-height: 1.7; margin-bottom: 24px; }
+    .expanded-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .expanded-tag { padding: 6px 16px; border-radius: 100px; background: rgba(168, 85, 247, 0.1); color: var(--accent); font-size: 0.8rem; font-weight: 500; }
+    .close-btn { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.5); border: none; color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 5; transition: background 0.3s; }
+    .close-btn:hover { background: var(--accent); }
+    @media (max-width: 768px) {
+      .card { width: 260px; height: 370px; }
+      .gallery { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+  <div class="header">
+    <h1><span>PRISM</span> Gallery</h1>
+    <p>Интерактивная 3D-галерея с hover-эффектами и параллаксом</p>
+  </div>
+
+  <div class="controls">
+    <button class="view-btn active" data-view="default">3D Cards</button>
+    <button class="view-btn" data-view="grid">Grid</button>
+    <button class="view-btn" data-view="carousel">Carousel</button>
+  </div>
+
+  <div class="gallery" id="gallery"></div>
+
+  <div class="card-expanded" id="expandedCard">
+    <div class="card-expanded-bg" id="expandedBg"></div>
+    <div class="card-expanded-content">
+      <button class="close-btn" id="closeBtn">✕</button>
+      <img class="expanded-img" id="expandedImg" src="" alt="">
+      <div class="expanded-body">
+        <span class="card-badge" id="expandedBadge"></span>
+        <h2 class="expanded-title" id="expandedTitle"></h2>
+        <p class="expanded-desc" id="expandedDesc"></p>
+        <div class="expanded-tags" id="expandedTags"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = [
+      { img: '../img/project-zenith.svg', badge: 'design', title: 'Zenith Platform', desc: 'Многостраничный веб-сайт для SaaS-платформы с уникальной системой навигации', full: 'Полный редизайн платформы Zenith: от логотипа до интерфейса дашборда. Разработана кастомная навигация с анимированными переходами между разделами, адаптивная вёрстка для всех устройств и система дизайн-токенов.', tags: ['Figma', 'HTML', 'CSS', 'JS'] },
+      { img: '../img/project-apex.svg', badge: 'brand', title: 'Apex Identity', desc: 'Фирменный стиль и брендбук для технологического стартапа', full: 'Разработка полного фирменного стиля для Apex Technologies: логотип, цветовая палитра, типографика, иконки, шаблоны соцсетей и гайдлайн по использованию бренда.', tags: ['Figma', 'Illustrator', 'Брендинг'] },
+      { img: '../img/project-pulse.svg', badge: 'dev', title: 'Pulse App', desc: 'Мобильное приложение для трекинга привычек и продуктивности', full: 'UI/UX дизайн и прототипирование мобильного приложения Pulse: онбординг, главный экран с трекером привычек, статистика, уведомления и настройки. 40+ экранов в Figma.', tags: ['Figma', 'Prototyping', 'UX Research'] },
+      { img: '../img/project-agency.svg', badge: 'motion', title: 'Flow Animation', desc: 'Система микроанимаций для e-commerce платформы', full: 'Дизайн и разработка системы микроанимаций: переходы между страницами, hover-эффекты на карточках товаров, анимация добавления в корзину, скелетон-загрузки и тактильная обратная связь.', tags: ['CSS', 'JS', 'Lottie', 'Motion'] },
+      { img: '../img/project-gallery.svg', badge: 'photo', title: 'Luma Portfolio', desc: 'Фотографическое портфолио с параллакс-скроллом', full: 'Портфолио для фотографа с горизонтальным скроллом, параллакс-эффектами и кастомным лайтбоксом. Оптимизация изображений через WebP и lazy loading.', tags: ['HTML', 'CSS', 'JS', 'Photoshop'] },
+    ];
+
+    const badgeMap = { design: 'badge-design', dev: 'badge-dev', brand: 'badge-brand', motion: 'badge-motion', photo: 'badge-photo' };
+    const badgeText = { design: 'Дизайн', dev: 'Разработка', brand: 'Брендинг', motion: 'Моушн', photo: 'Фото' };
+
+    const gallery = document.getElementById('gallery');
+
+    function renderCards() {
+      gallery.innerHTML = projects.map((p, i) => `
+        <div class="card" data-index="${i}">
+          <div class="card-inner">
+            <div class="card-shine" id="shine-${i}"></div>
+            <div class="card-border"></div>
+            <img class="card-img" src="${p.img}" alt="${p.title}">
+            <div class="card-body">
+              <span class="card-badge ${badgeMap[p.badge]}">${badgeText[p.badge]}</span>
+              <div class="card-title">${p.title}</div>
+              <div class="card-desc">${p.desc}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -12;
+          const rotateY = ((x - centerX) / centerX) * 12;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+
+          const idx = card.dataset.index;
+          const shine = document.getElementById(`shine-${idx}`);
+          if (shine) {
+            shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.12), transparent 60%)`;
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+          const idx = card.dataset.index;
+          const shine = document.getElementById(`shine-${idx}`);
+          if (shine) shine.style.background = '';
+        });
+
+        card.addEventListener('click', () => openCard(parseInt(card.dataset.index)));
+      });
+    }
+
+    const expandedCard = document.getElementById('expandedCard');
+
+    function openCard(idx) {
+      const p = projects[idx];
+      document.getElementById('expandedImg').src = p.img.replace('400&h=250', '600&h=300');
+      document.getElementById('expandedBadge').className = `card-badge ${badgeMap[p.badge]}`;
+      document.getElementById('expandedBadge').textContent = badgeText[p.badge];
+      document.getElementById('expandedTitle').textContent = p.title;
+      document.getElementById('expandedDesc').textContent = p.full;
+      document.getElementById('expandedTags').innerHTML = p.tags.map(t => `<span class="expanded-tag">${t}</span>`).join('');
+      expandedCard.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('closeBtn').addEventListener('click', closeExpanded);
+    document.getElementById('expandedBg').addEventListener('click', closeExpanded);
+
+    function closeExpanded() {
+      expandedCard.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeExpanded(); });
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const view = btn.dataset.view;
+        gallery.className = 'gallery';
+        if (view !== 'default') gallery.classList.add(view + '-view');
+      });
+    });
+
+    renderCards();
+  </script>
+</body>
+</html>
