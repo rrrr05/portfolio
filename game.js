@@ -164,7 +164,7 @@
     });
 
     if (progress < 100) {
-      progress += 0.05;
+      progress += 0.15;
       if (progress > 100) progress = 100;
     }
 

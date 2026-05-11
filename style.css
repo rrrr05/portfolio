@@ -342,7 +342,7 @@ a:hover::after {
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 10001;
   mix-blend-mode: difference;
   transform: translate(-50%, -50%);
   transition: opacity 0.15s, transform 0.1s;
@@ -355,7 +355,7 @@ a:hover::after {
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 10000;
   transform: translate(-50%, -50%);
   transition: width 0.3s, height 0.3s, border-color 0.3s, opacity 0.3s, background 0.3s;
   opacity: 0.5;
