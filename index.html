@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru" data-theme="void">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio — Веб-дизайнер</title>
-  <meta name="description" content="Портфолио веб-дизайнера — UI/UX, вёрстка, современные сайты">
-  <meta name="keywords" content="веб-дизайн, портфолио, UI/UX, вёрстка, Figma">
-  <meta property="og:title" content="Portfolio — Веб-дизайнер">
-  <meta property="og:description" content="Превращаю идеи в красивые и удобные цифровые продукты">
+  <title>[PORTFOLIO] — Веб-дизайнер</title>
+  <meta name="description" content="Портфолио веб-дизайнера — Brutal Pixel Design">
+  <meta name="keywords" content="веб-дизайн, портфолио, UI/UX, brutalist, pixel">
+  <meta property="og:title" content="[PORTFOLIO] — Веб-дизайнер">
+  <meta property="og:description" content="Raw code meets raw creativity">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="img/project-agency.svg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="page-loader" id="pageLoader">
-    <span class="loader-counter" id="loaderCounter">0%</span>
+
+  <div class="game-loader" id="gameLoader">
+    <canvas id="gameCanvas"></canvas>
+    <div class="game-ui">
+      <p class="game-ui__title">DRIVE TO PORTFOLIO</p>
+      <p class="game-ui__hint">← → или A/D чтобы рулить</p>
+      <div class="game-ui__progress">
+        <span class="game-ui__label">LOADING:</span>
+        <span class="game-ui__bar" id="gameBar">[░░░░░░░░░░]</span>
+        <span class="game-ui__pct" id="gamePct">0%</span>
+      </div>
+      <button class="btn btn-pixel game-skip" id="gameSkip">SKIP →</button>
+    </div>
   </div>
 
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -25,18 +35,19 @@
   <div class="cursor-ring" id="cursorRing"></div>
   <div class="cursor-glow" id="cursorGlow"></div>
 
+  <div class="click-particles" id="clickParticles"></div>
+
   <nav class="nav" id="navbar">
-    <a href="#" class="nav__logo">&lt;dev/&gt;</a>
+    <a href="#" class="nav__logo">[YOUR NAME]</a>
     <ul class="nav__links" id="navLinks">
-      <li><a href="#about" class="nav__link">Обо мне</a></li>
-      <li><a href="#skills" class="nav__link">Навыки</a></li>
-      <li><a href="#projects" class="nav__link">Проекты</a></li>
-      <li><a href="#contacts" class="nav__link">Контакты</a></li>
+      <li><a href="#about" class="nav__link">ABOUT</a></li>
+      <li><a href="#skills" class="nav__link">SKILLS</a></li>
+      <li><a href="#projects" class="nav__link">PROJECTS</a></li>
+      <li><a href="#contacts" class="nav__link">CONTACT</a></li>
     </ul>
     <div class="nav__actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <button class="theme-cycle" id="themeCycle" aria-label="Сменить тему">
+        <span class="theme-cycle__name" id="themeName">VOID</span>
       </button>
       <button class="burger" id="burger" aria-label="Меню">
         <span></span><span></span><span></span>
@@ -45,10 +56,10 @@
   </nav>
 
   <div class="nav__mobile" id="navMobile">
-    <a href="#about" class="nav__mobile-link">Обо мне</a>
-    <a href="#skills" class="nav__mobile-link">Навыки</a>
-    <a href="#projects" class="nav__mobile-link">Проекты</a>
-    <a href="#contacts" class="nav__mobile-link">Контакты</a>
+    <a href="#about" class="nav__mobile-link">ABOUT</a>
+    <a href="#skills" class="nav__mobile-link">SKILLS</a>
+    <a href="#projects" class="nav__mobile-link">PROJECTS</a>
+    <a href="#contacts" class="nav__mobile-link">CONTACT</a>
   </div>
 
   <button class="scroll-top" id="scrollTop" aria-label="Наверх">
@@ -59,63 +70,70 @@
     <div class="hero__container container">
       <p class="label label--accent">[ Веб-дизайнер ]</p>
       <h1 class="hero__title">
-        <span class="hero__line">Дизайнер</span><br>
+        <span class="hero__line glitch" data-text="HEY, I'M">HEY, I'M</span><br>
+        <span class="hero__line hero__line--stroke">[YOUR NAME]</span><br>
         <span class="hero__typed accent" id="typed"></span><span class="hero__cursor">_</span>
       </h1>
-      <p class="hero__subtitle">Превращаю идеи в красивые и удобные цифровые продукты</p>
+      <p class="hero__subtitle">UI/UX Design. Product Design.<br>Web Design. All the cool stuff you can imagine.</p>
       <div class="hero__buttons">
-        <a href="#projects" class="btn btn-primary btn-arrow">Смотреть работы</a>
-        <a href="#contacts" class="btn btn-secondary">Связаться</a>
+        <a href="#projects" class="btn btn-primary btn-magnetic">СМОТРЕТЬ РАБОТЫ →</a>
+        <a href="#contacts" class="btn btn-secondary btn-magnetic">СВЯЗАТЬСЯ</a>
       </div>
     </div>
     <div class="hero__scroll">
       <div class="scroll-line"></div>
-      <span class="label">листай вниз</span>
+      <span class="label">SCROLL ↓</span>
     </div>
     <div class="hero__marquee" aria-hidden="true">
-      <span>UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★ UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★</span>
+      <div class="marquee-track">
+        <span>UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★ BRUTAL ★ PIXEL ★ </span>
+        <span>UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★ BRUTAL ★ PIXEL ★ </span>
+      </div>
     </div>
   </section>
 
-  <section id="about" class="section">
+  <section id="about" class="section section--accent-green">
     <div class="container">
-      <div class="section-header">
-        <p class="section-header__label">[ 01 ]</p>
-        <h2 class="section-header__title">Обо мне</h2>
+      <div class="section-header reveal">
+        <p class="section-header__label">[ 01 — ABOUT ]</p>
+        <h2 class="section-header__title glitch" data-text="ОБО МНЕ">ОБО МНЕ</h2>
+        <div class="section-header__rule"></div>
       </div>
       <div class="about-grid">
-        <div class="about-photo">
+        <div class="about-photo reveal">
           <div class="photo-frame">
-            <img src="img/avatar.svg" alt="Фото" class="photo-img">
+            <img src="img/avatar.svg" alt="Фото" class="photo-img" loading="lazy">
             <div class="photo-border"></div>
+            <div class="photo-corner photo-corner--tl"></div>
+            <div class="photo-corner photo-corner--br"></div>
           </div>
           <div class="about-stats">
             <div class="stat">
               <span class="stat__number" data-target="10">0</span><span class="stat__plus">+</span>
-              <span class="stat__label">Проектов</span>
+              <span class="stat__label">ПРОЕКТОВ</span>
             </div>
             <div class="stat">
               <span class="stat__number" data-target="2">0</span><span class="stat__plus">+</span>
-              <span class="stat__label">Года опыта</span>
+              <span class="stat__label">ГОДА ОПЫТА</span>
             </div>
           </div>
         </div>
-        <div class="about-text">
+        <div class="about-text reveal">
           <p class="about-intro">Я — начинающий веб-дизайнер, который обожает создавать интерфейсы, в которые хочется нажимать.</p>
           <p>Мой подход — минимализм с характером. Каждая деталь продумана: от отступов до микроанимаций. Верю, что хороший дизайн незаметен — он просто работает.</p>
           <p>Сейчас активно развиваюсь: изучаю новые инструменты, экспериментирую со стилями и ищу крутые проекты для сотрудничества.</p>
           <div class="about-details">
             <div class="detail">
-              <span class="label">Локация</span>
-              <span class="detail__value">Россия</span>
+              <span class="label">ЛОКАЦИЯ</span>
+              <span class="detail__value">РОССИЯ</span>
             </div>
             <div class="detail">
-              <span class="label">Фокус</span>
-              <span class="detail__value">UI/UX, Вёрстка</span>
+              <span class="label">ФОКУС</span>
+              <span class="detail__value">UI/UX, ВЁРСТКА</span>
             </div>
             <div class="detail">
-              <span class="label">Статус</span>
-              <span class="detail__value detail__value--open">● Открыт для работы</span>
+              <span class="label">СТАТУС</span>
+              <span class="detail__value detail__value--open">● ОТКРЫТ ДЛЯ РАБОТЫ</span>
             </div>
           </div>
         </div>
@@ -123,128 +141,156 @@
     </div>
   </section>
 
-  <section id="skills" class="section section--alt">
+  <section id="skills" class="section section--accent-orange">
     <div class="container">
-      <div class="section-header">
-        <p class="section-header__label">[ 02 ]</p>
-        <h2 class="section-header__title">Навыки</h2>
+      <div class="section-header reveal">
+        <p class="section-header__label">[ 02 — SKILLS ]</p>
+        <h2 class="section-header__title glitch" data-text="НАВЫКИ">НАВЫКИ</h2>
+        <div class="section-header__rule"></div>
       </div>
-      <div class="skills-grid">
-        <div class="skill-card">
+      <div class="skills-terminal reveal">
+        <div class="terminal-line">
+          <span class="terminal-prompt">>&nbsp;</span>
+          <span class="terminal-label">FIGMA</span>
+          <span class="terminal-bar">[<span class="terminal-bar__fill" data-width="85">████████</span><span class="terminal-bar__empty">░░</span>]</span>
+          <span class="terminal-pct">85%</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">>&nbsp;</span>
+          <span class="terminal-label">HTML/CSS</span>
+          <span class="terminal-bar">[<span class="terminal-bar__fill" data-width="80">███████</span><span class="terminal-bar__empty">░░░</span>]</span>
+          <span class="terminal-pct">80%</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">>&nbsp;</span>
+          <span class="terminal-label">JAVASCRIPT</span>
+          <span class="terminal-bar">[<span class="terminal-bar__fill" data-width="60">█████</span><span class="terminal-bar__empty">░░░░░</span>]</span>
+          <span class="terminal-pct">60%</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">>&nbsp;</span>
+          <span class="terminal-label">АДАПТИВ</span>
+          <span class="terminal-bar">[<span class="terminal-bar__fill" data-width="90">█████████</span><span class="terminal-bar__empty">░</span>]</span>
+          <span class="terminal-pct">90%</span>
+        </div>
+      </div>
+      <div class="skills-cards reveal">
+        <div class="skill-card tilt-card">
           <div class="skill-card__top">
             <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <h3 class="skill-card__title">Figma</h3>
           </div>
-          <div class="skill-bar"><div class="skill-bar__fill" data-width="85"></div></div>
           <p class="skill-card__desc">UI/UX дизайн, прототипы, дизайн-системы</p>
         </div>
-        <div class="skill-card">
+        <div class="skill-card tilt-card">
           <div class="skill-card__top">
             <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            <h3 class="skill-card__title">HTML / CSS</h3>
+            <h3 class="skill-card__title">HTML/CSS</h3>
           </div>
-          <div class="skill-bar"><div class="skill-bar__fill" data-width="80"></div></div>
           <p class="skill-card__desc">Семантика, Flexbox, Grid, анимации</p>
         </div>
-        <div class="skill-card">
+        <div class="skill-card tilt-card">
           <div class="skill-card__top">
             <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             <h3 class="skill-card__title">JavaScript</h3>
           </div>
-          <div class="skill-bar"><div class="skill-bar__fill" data-width="60"></div></div>
           <p class="skill-card__desc">Интерактивность, DOM, ES6+</p>
         </div>
-        <div class="skill-card">
+        <div class="skill-card tilt-card">
           <div class="skill-card__top">
             <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
             <h3 class="skill-card__title">Адаптив</h3>
           </div>
-          <div class="skill-bar"><div class="skill-bar__fill" data-width="90"></div></div>
           <p class="skill-card__desc">Mobile-first, резиновая вёрстка</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="projects" class="section">
+  <section id="projects" class="section section--accent-yellow">
     <div class="container">
-      <div class="section-header">
-        <p class="section-header__label">[ 03 ]</p>
-        <h2 class="section-header__title">Проекты</h2>
+      <div class="section-header reveal">
+        <p class="section-header__label">[ 03 — PROJECTS ]</p>
+        <h2 class="section-header__title glitch" data-text="ПРОЕКТЫ">ПРОЕКТЫ</h2>
+        <div class="section-header__rule"></div>
       </div>
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="Figma">Figma</button>
-        <button class="filter-btn" data-filter="HTML">HTML</button>
-        <button class="filter-btn" data-filter="CSS">CSS</button>
-        <button class="filter-btn" data-filter="JS">JS</button>
+      <div class="filter-bar reveal" id="filterBar">
+        <button class="filter-btn active" data-filter="all">[ALL]</button>
+        <button class="filter-btn" data-filter="Figma">[FIGMA]</button>
+        <button class="filter-btn" data-filter="HTML">[HTML]</button>
+        <button class="filter-btn" data-filter="CSS">[CSS]</button>
+        <button class="filter-btn" data-filter="JS">[JS]</button>
       </div>
-      <div class="projects-grid" id="projectsGrid">
-        <a href="projects/agency-landing.html" class="card" data-tags="Figma,HTML,CSS,JS">
-          <div class="card__image-wrap hover-zoom">
+      <div class="projects-list" id="projectsGrid">
+
+        <div class="project-row tilt-card reveal" data-tags="Figma,HTML,CSS,JS">
+          <div class="project-row__left">
+            <span class="project-row__index">/> PR. 01</span>
+            <h3 class="project-row__title">NOVA — Creative Agency</h3>
+            <span class="project-row__year">2024 ■</span>
+          </div>
+          <div class="project-row__right">
+            <p class="project-row__desc">Лендинг креативного агентства с кастомным курсором, магнитными кнопками и бегущей строкой</p>
+            <div class="project-row__tags">
+              <span class="tag">Figma</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
+            </div>
+            <a href="projects/agency-landing.html" class="project-row__link">↗ VISIT SITE</a>
+          </div>
+          <div class="project-row__image">
             <img data-src="img/project-agency.svg" alt="NOVA Agency" class="lazy-img">
-            <div class="card__overlay">
-              <span class="btn btn-secondary btn-sm">Открыть →</span>
-            </div>
           </div>
-          <div class="card__content">
-            <div class="card__tags">
-              <span class="tag">Figma</span>
-              <span class="tag">HTML</span>
-              <span class="tag">CSS</span>
-              <span class="tag">JS</span>
-            </div>
-            <h3 class="card__title">NOVA — Creative Agency</h3>
-            <p class="card__desc">Лендинг креативного агентства с кастомным курсором, магнитными кнопками и бегущей строкой</p>
+        </div>
+
+        <div class="project-row tilt-card reveal" data-tags="Figma,HTML,CSS,JS">
+          <div class="project-row__left">
+            <span class="project-row__index">/> PR. 02</span>
+            <h3 class="project-row__title">SKYCAST — Weather App</h3>
+            <span class="project-row__year">2024 ■</span>
           </div>
-        </a>
-        <a href="projects/weather-app.html" class="card" data-tags="Figma,HTML,CSS,JS">
-          <div class="card__image-wrap hover-zoom">
-            <img data-src="img/project-weather.svg" alt="SkyCast Weather" class="lazy-img">
-            <div class="card__overlay">
-              <span class="btn btn-secondary btn-sm">Открыть →</span>
+          <div class="project-row__right">
+            <p class="project-row__desc">Погодное приложение с поиском городов, почасовым и недельным прогнозом</p>
+            <div class="project-row__tags">
+              <span class="tag">Figma</span><span class="tag">CSS</span><span class="tag">JS</span>
             </div>
+            <a href="projects/weather-app.html" class="project-row__link">↗ VISIT SITE</a>
           </div>
-          <div class="card__content">
-            <div class="card__tags">
-              <span class="tag">Figma</span>
-              <span class="tag">CSS</span>
-              <span class="tag">JS</span>
+          <div class="project-row__image">
+            <img data-src="img/project-weather.svg" alt="SkyCast" class="lazy-img">
+          </div>
+        </div>
+
+        <div class="project-row tilt-card reveal" data-tags="Figma,HTML,CSS,JS">
+          <div class="project-row__left">
+            <span class="project-row__index">/> PR. 03</span>
+            <h3 class="project-row__title">PRISM — 3D Gallery</h3>
+            <span class="project-row__year">2024 ■</span>
+          </div>
+          <div class="project-row__right">
+            <p class="project-row__desc">Интерактивная 3D-галерея с параллакс-наведением, модальными окнами и сменой раскладки</p>
+            <div class="project-row__tags">
+              <span class="tag">CSS</span><span class="tag">JS</span><span class="tag">3D</span>
             </div>
-            <h3 class="card__title">SkyCast — Погода</h3>
-            <p class="card__desc">Погодное приложение с поиском городов, почасовым и недельным прогнозом</p>
+            <a href="projects/card-gallery.html" class="project-row__link">↗ VISIT SITE</a>
           </div>
-        </a>
-        <a href="projects/card-gallery.html" class="card" data-tags="Figma,HTML,CSS,JS">
-          <div class="card__image-wrap hover-zoom">
+          <div class="project-row__image">
             <img data-src="img/project-gallery.svg" alt="PRISM Gallery" class="lazy-img">
-            <div class="card__overlay">
-              <span class="btn btn-secondary btn-sm">Открыть →</span>
-            </div>
           </div>
-          <div class="card__content">
-            <div class="card__tags">
-              <span class="tag">CSS</span>
-              <span class="tag">JS</span>
-              <span class="tag">3D</span>
-            </div>
-            <h3 class="card__title">PRISM — 3D Gallery</h3>
-            <p class="card__desc">Интерактивная 3D-галерея с параллакс-наведением, модальными окнами и сменой раскладки</p>
-          </div>
-        </a>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section id="contacts" class="section section--alt">
+  <section id="contacts" class="section section--accent-blue">
     <div class="container">
-      <div class="section-header">
-        <p class="section-header__label">[ 04 ]</p>
-        <h2 class="section-header__title">Контакты</h2>
+      <div class="section-header reveal">
+        <p class="section-header__label">[ 04 — CONTACT ]</p>
+        <h2 class="section-header__title glitch" data-text="КОНТАКТЫ">КОНТАКТЫ</h2>
+        <div class="section-header__rule"></div>
       </div>
       <div class="contacts-grid">
-        <div class="contacts-info">
-          <p class="contacts-intro">Есть идея для проекта?<br><span class="accent">Давай обсудим!</span></p>
+        <div class="contacts-info reveal">
+          <p class="contacts-intro">HAVE A PROJECT<br>IN MIND?<br><span class="accent">LET'S TALK!</span></p>
           <div class="contact-links">
             <a href="mailto:hello@example.com" class="contact-item">
               <span class="contact-item__icon">✉</span>
@@ -268,21 +314,24 @@
             </a>
           </div>
         </div>
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form reveal" id="contactForm">
           <div class="form-group">
-            <label class="form-label" for="name">Имя</label>
-            <input type="text" id="name" class="input" required placeholder=" ">
+            <input type="text" id="name" class="input" required placeholder="YOUR NAME">
           </div>
           <div class="form-group">
-            <label class="form-label" for="email">Email</label>
-            <input type="email" id="email" class="input" required placeholder=" ">
+            <input type="email" id="email" class="input" required placeholder="YOUR EMAIL">
           </div>
           <div class="form-group">
-            <label class="form-label" for="message">Сообщение</label>
-            <textarea id="message" class="input textarea" rows="5" required placeholder=" "></textarea>
+            <textarea id="message" class="input textarea" rows="5" required placeholder="YOUR MESSAGE"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary btn-arrow btn-full">Отправить</button>
+          <button type="submit" class="btn btn-primary btn-full btn-magnetic">SEND MESSAGE →</button>
         </form>
+      </div>
+      <div class="contacts-giant reveal">
+        <span class="contacts-giant__letter">[</span>
+        <span class="contacts-giant__letter">Y</span>
+        <span class="contacts-giant__letter">N</span>
+        <span class="contacts-giant__letter">]</span>
       </div>
     </div>
   </section>
@@ -290,15 +339,38 @@
   <footer class="footer">
     <div class="container">
       <div class="footer__content">
-        <span class="footer__logo">&lt;dev/&gt;</span>
-        <span class="footer__copy">&copy; 2026</span>
-        <span class="footer__status">
-          <span class="status"></span> Доступен для работы
-        </span>
+        <div class="footer__sitemap">
+          <span class="label">SITEMAP</span>
+          <a href="#hero" class="footer__link">HOME</a>
+          <a href="#projects" class="footer__link">WORKS</a>
+          <a href="#about" class="footer__link">ABOUT</a>
+          <a href="#contacts" class="footer__link">CONTACT</a>
+        </div>
+        <span class="footer__copy">&copy; 2026 [YOUR NAME] — BUILT WITH RAW CODE</span>
+        <button class="footer__top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ BACK TO TOP</button>
       </div>
     </div>
   </footer>
 
+  <div class="terminal-overlay" id="terminalOverlay">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-header__dot terminal-header__dot--red"></span>
+        <span class="terminal-header__dot terminal-header__dot--yellow"></span>
+        <span class="terminal-header__dot terminal-header__dot--green"></span>
+        <span class="terminal-header__title">terminal — portfolio</span>
+      </div>
+      <div class="terminal-body" id="terminalBody">
+        <div class="terminal-line"><span class="terminal-output">Welcome to portfolio terminal. Type 'help' for commands.</span></div>
+      </div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">visitor@portfolio:~$&nbsp;</span>
+        <input type="text" class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
