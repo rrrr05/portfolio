@@ -13,22 +13,27 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="scroll-progress" id="scrollProgress"></div>
-  <div class="cursor-glow" id="cursorGlow"></div>
-  <canvas id="particles"></canvas>
+  <div class="page-loader" id="pageLoader">
+    <span class="loader-counter" id="loaderCounter">0%</span>
+  </div>
 
-  <nav class="navbar" id="navbar">
-    <a href="#" class="logo">&lt;dev/&gt;</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about">Обо мне</a></li>
-      <li><a href="#skills">Навыки</a></li>
-      <li><a href="#projects">Проекты</a></li>
-      <li><a href="#contacts">Контакты</a></li>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <nav class="nav" id="navbar">
+    <a href="#" class="nav__logo">&lt;dev/&gt;</a>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="#about" class="nav__link">Обо мне</a></li>
+      <li><a href="#skills" class="nav__link">Навыки</a></li>
+      <li><a href="#projects" class="nav__link">Проекты</a></li>
+      <li><a href="#contacts" class="nav__link">Контакты</a></li>
     </ul>
-    <div class="nav-actions">
+    <div class="nav__actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -39,226 +44,259 @@
     </div>
   </nav>
 
+  <div class="nav__mobile" id="navMobile">
+    <a href="#about" class="nav__mobile-link">Обо мне</a>
+    <a href="#skills" class="nav__mobile-link">Навыки</a>
+    <a href="#projects" class="nav__mobile-link">Проекты</a>
+    <a href="#contacts" class="nav__mobile-link">Контакты</a>
+  </div>
+
   <button class="scroll-top" id="scrollTop" aria-label="Наверх">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
   <section class="hero" id="hero">
-    <div class="hero-content">
-      <div class="hero-badge">Открыт для проектов</div>
-      <h1>Дизайнер<br><span class="accent" id="typed"></span><span class="cursor">|</span></h1>
-      <p>Превращаю идеи в красивые и удобные цифровые продукты</p>
-      <div class="hero-buttons">
-        <a href="#projects" class="btn btn-primary">Смотреть работы</a>
-        <a href="#contacts" class="btn btn-outline">Связаться</a>
+    <div class="hero__container container">
+      <p class="label label--accent">[ Веб-дизайнер ]</p>
+      <h1 class="hero__title">
+        <span class="hero__line">Дизайнер</span><br>
+        <span class="hero__typed accent" id="typed"></span><span class="hero__cursor">_</span>
+      </h1>
+      <p class="hero__subtitle">Превращаю идеи в красивые и удобные цифровые продукты</p>
+      <div class="hero__buttons">
+        <a href="#projects" class="btn btn-primary btn-arrow">Смотреть работы</a>
+        <a href="#contacts" class="btn btn-secondary">Связаться</a>
       </div>
     </div>
-    <div class="hero-scroll">
+    <div class="hero__scroll">
       <div class="scroll-line"></div>
-      <span>листай вниз</span>
+      <span class="label">листай вниз</span>
+    </div>
+    <div class="hero__marquee" aria-hidden="true">
+      <span>UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★ UI/UX ★ ВЁРСТКА ★ FIGMA ★ JAVASCRIPT ★ АДАПТИВ ★ КРЕАТИВ ★</span>
     </div>
   </section>
 
   <section id="about" class="section">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <h2 class="section-title">Обо мне</h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-photo">
-        <div class="photo-frame">
-          <div class="photo-placeholder"><img src="img/avatar.svg" alt="Фото" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius);"></div>
-          <div class="photo-border"></div>
-        </div>
-        <div class="about-stats">
-          <div class="stat">
-            <span class="stat-num" data-target="10">0</span><span class="stat-plus">+</span>
-            <span class="stat-label">Проектов</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num" data-target="2">0</span><span class="stat-plus">+</span>
-            <span class="stat-label">Года опыта</span>
-          </div>
-        </div>
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__label">[ 01 ]</p>
+        <h2 class="section-header__title">Обо мне</h2>
       </div>
-      <div class="about-text">
-        <p class="about-intro">Я — начинающий веб-дизайнер, который обожает создавать интерфейсы, в которые хочется нажимать.</p>
-        <p>Мой подход — минимализм с характером. Каждая деталь продумана: от отступов до микроанимаций. Верю, что хороший дизайн незаметен — он просто работает.</p>
-        <p>Сейчас активно развиваюсь: изучаю новые инструменты, экспериментирую со стилями и ищу крутые проекты для сотрудничества.</p>
-        <div class="about-details">
-          <div class="detail">
-            <span class="detail-label">Локация</span>
-            <span class="detail-value">Россия</span>
+      <div class="about-grid">
+        <div class="about-photo">
+          <div class="photo-frame">
+            <img src="img/avatar.svg" alt="Фото" class="photo-img">
+            <div class="photo-border"></div>
           </div>
-          <div class="detail">
-            <span class="detail-label">Фокус</span>
-            <span class="detail-value">UI/UX, Вёрстка</span>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat__number" data-target="10">0</span><span class="stat__plus">+</span>
+              <span class="stat__label">Проектов</span>
+            </div>
+            <div class="stat">
+              <span class="stat__number" data-target="2">0</span><span class="stat__plus">+</span>
+              <span class="stat__label">Года опыта</span>
+            </div>
           </div>
-          <div class="detail">
-            <span class="detail-label">Статус</span>
-            <span class="detail-value status-open">Открыт для работы</span>
+        </div>
+        <div class="about-text">
+          <p class="about-intro">Я — начинающий веб-дизайнер, который обожает создавать интерфейсы, в которые хочется нажимать.</p>
+          <p>Мой подход — минимализм с характером. Каждая деталь продумана: от отступов до микроанимаций. Верю, что хороший дизайн незаметен — он просто работает.</p>
+          <p>Сейчас активно развиваюсь: изучаю новые инструменты, экспериментирую со стилями и ищу крутые проекты для сотрудничества.</p>
+          <div class="about-details">
+            <div class="detail">
+              <span class="label">Локация</span>
+              <span class="detail__value">Россия</span>
+            </div>
+            <div class="detail">
+              <span class="label">Фокус</span>
+              <span class="detail__value">UI/UX, Вёрстка</span>
+            </div>
+            <div class="detail">
+              <span class="label">Статус</span>
+              <span class="detail__value detail__value--open">● Открыт для работы</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="skills" class="section section-alt">
-    <div class="section-header">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Навыки</h2>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-top">
-          <svg class="skill-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <h3>Figma</h3>
-        </div>
-        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-        <p>UI/UX дизайн, прототипы, дизайн-системы</p>
+  <section id="skills" class="section section--alt">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__label">[ 02 ]</p>
+        <h2 class="section-header__title">Навыки</h2>
       </div>
-      <div class="skill-card">
-        <div class="skill-top">
-          <svg class="skill-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          <h3>HTML / CSS</h3>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card__top">
+            <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <h3 class="skill-card__title">Figma</h3>
+          </div>
+          <div class="skill-bar"><div class="skill-bar__fill" data-width="85"></div></div>
+          <p class="skill-card__desc">UI/UX дизайн, прототипы, дизайн-системы</p>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
-        <p>Семантика, Flexbox, Grid, анимации</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-top">
-          <svg class="skill-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <h3>JavaScript</h3>
+        <div class="skill-card">
+          <div class="skill-card__top">
+            <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <h3 class="skill-card__title">HTML / CSS</h3>
+          </div>
+          <div class="skill-bar"><div class="skill-bar__fill" data-width="80"></div></div>
+          <p class="skill-card__desc">Семантика, Flexbox, Grid, анимации</p>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-width="60"></div></div>
-        <p>Интерактивность, DOM, ES6+</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-top">
-          <svg class="skill-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-          <h3>Адаптив</h3>
+        <div class="skill-card">
+          <div class="skill-card__top">
+            <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <h3 class="skill-card__title">JavaScript</h3>
+          </div>
+          <div class="skill-bar"><div class="skill-bar__fill" data-width="60"></div></div>
+          <p class="skill-card__desc">Интерактивность, DOM, ES6+</p>
         </div>
-        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-        <p>Mobile-first, резиновая вёрстка</p>
+        <div class="skill-card">
+          <div class="skill-card__top">
+            <svg class="skill-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+            <h3 class="skill-card__title">Адаптив</h3>
+          </div>
+          <div class="skill-bar"><div class="skill-bar__fill" data-width="90"></div></div>
+          <p class="skill-card__desc">Mobile-first, резиновая вёрстка</p>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="projects" class="section">
-    <div class="section-header">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Проекты</h2>
-    </div>
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" data-filter="all">Все</button>
-      <button class="filter-btn" data-filter="Figma">Figma</button>
-      <button class="filter-btn" data-filter="HTML">HTML</button>
-      <button class="filter-btn" data-filter="CSS">CSS</button>
-      <button class="filter-btn" data-filter="JS">JS</button>
-    </div>
-    <div class="projects-grid" id="projectsGrid">
-      <a href="projects/agency-landing.html" class="project-card" data-tags="Figma,HTML,CSS,JS">
-        <div class="project-image">
-          <img data-src="img/project-agency.svg" alt="NOVA Agency" class="lazy-img">
-          <div class="project-overlay">
-            <span class="project-link">Открыть →</span>
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__label">[ 03 ]</p>
+        <h2 class="section-header__title">Проекты</h2>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="Figma">Figma</button>
+        <button class="filter-btn" data-filter="HTML">HTML</button>
+        <button class="filter-btn" data-filter="CSS">CSS</button>
+        <button class="filter-btn" data-filter="JS">JS</button>
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        <a href="projects/agency-landing.html" class="card" data-tags="Figma,HTML,CSS,JS">
+          <div class="card__image-wrap hover-zoom">
+            <img data-src="img/project-agency.svg" alt="NOVA Agency" class="lazy-img">
+            <div class="card__overlay">
+              <span class="btn btn-secondary btn-sm">Открыть →</span>
+            </div>
           </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags">
-            <span class="tag">Figma</span>
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JS</span>
+          <div class="card__content">
+            <div class="card__tags">
+              <span class="tag">Figma</span>
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JS</span>
+            </div>
+            <h3 class="card__title">NOVA — Creative Agency</h3>
+            <p class="card__desc">Лендинг креативного агентства с кастомным курсором, магнитными кнопками и бегущей строкой</p>
           </div>
-          <h3>NOVA — Creative Agency</h3>
-          <p>Лендинг креативного агентства с кастомным курсором, магнитными кнопками и бегущей строкой</p>
-        </div>
-      </a>
-      <a href="projects/weather-app.html" class="project-card" data-tags="Figma,HTML,CSS,JS">
-        <div class="project-image">
-          <img data-src="img/project-weather.svg" alt="SkyCast Weather" class="lazy-img">
-          <div class="project-overlay">
-            <span class="project-link">Открыть →</span>
+        </a>
+        <a href="projects/weather-app.html" class="card" data-tags="Figma,HTML,CSS,JS">
+          <div class="card__image-wrap hover-zoom">
+            <img data-src="img/project-weather.svg" alt="SkyCast Weather" class="lazy-img">
+            <div class="card__overlay">
+              <span class="btn btn-secondary btn-sm">Открыть →</span>
+            </div>
           </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags">
-            <span class="tag">Figma</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JS</span>
+          <div class="card__content">
+            <div class="card__tags">
+              <span class="tag">Figma</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JS</span>
+            </div>
+            <h3 class="card__title">SkyCast — Погода</h3>
+            <p class="card__desc">Погодное приложение с поиском городов, почасовым и недельным прогнозом</p>
           </div>
-          <h3>SkyCast — Погода</h3>
-          <p>Погодное приложение с поиском городов, почасовым и недельным прогнозом</p>
-        </div>
-      </a>
-      <a href="projects/card-gallery.html" class="project-card" data-tags="Figma,HTML,CSS,JS">
-        <div class="project-image">
-          <img data-src="img/project-gallery.svg" alt="PRISM Gallery" class="lazy-img">
-          <div class="project-overlay">
-            <span class="project-link">Открыть →</span>
+        </a>
+        <a href="projects/card-gallery.html" class="card" data-tags="Figma,HTML,CSS,JS">
+          <div class="card__image-wrap hover-zoom">
+            <img data-src="img/project-gallery.svg" alt="PRISM Gallery" class="lazy-img">
+            <div class="card__overlay">
+              <span class="btn btn-secondary btn-sm">Открыть →</span>
+            </div>
           </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags">
-            <span class="tag">CSS</span>
-            <span class="tag">JS</span>
-            <span class="tag">3D</span>
+          <div class="card__content">
+            <div class="card__tags">
+              <span class="tag">CSS</span>
+              <span class="tag">JS</span>
+              <span class="tag">3D</span>
+            </div>
+            <h3 class="card__title">PRISM — 3D Gallery</h3>
+            <p class="card__desc">Интерактивная 3D-галерея с параллакс-наведением, модальными окнами и сменой раскладки</p>
           </div>
-          <h3>PRISM — 3D Gallery</h3>
-          <p>Интерактивная 3D-галерея с параллакс-наведением, модальными окнами и сменой раскладки</p>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
   </section>
 
-  <section id="contacts" class="section section-alt">
-    <div class="section-header">
-      <span class="section-num">04</span>
-      <h2 class="section-title">Контакты</h2>
-    </div>
-    <div class="contacts-grid">
-      <div class="contacts-info">
-        <p class="contacts-intro">Есть идея для проекта?<br>Давай обсудим!</p>
-        <div class="contact-links">
-          <a href="mailto:hello@example.com" class="contact-item">
-            <span class="contact-icon">✉</span>
-            <span>hello@example.com</span>
-          </a>
-          <a href="#" class="contact-item">
-            <span class="contact-icon">💬</span>
-            <span>Telegram</span>
-          </a>
-          <a href="#" class="contact-item">
-            <span class="contact-icon">🎨</span>
-            <span>Behance</span>
-          </a>
-          <a href="#" class="contact-item">
-            <span class="contact-icon">⚡</span>
-            <span>GitHub</span>
-          </a>
-        </div>
+  <section id="contacts" class="section section--alt">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__label">[ 04 ]</p>
+        <h2 class="section-header__title">Контакты</h2>
       </div>
-      <form class="contact-form" id="contactForm">
-        <div class="form-group">
-          <input type="text" id="name" required placeholder=" ">
-          <label for="name">Имя</label>
+      <div class="contacts-grid">
+        <div class="contacts-info">
+          <p class="contacts-intro">Есть идея для проекта?<br><span class="accent">Давай обсудим!</span></p>
+          <div class="contact-links">
+            <a href="mailto:hello@example.com" class="contact-item">
+              <span class="contact-item__icon">✉</span>
+              <span class="contact-item__text">hello@example.com</span>
+              <span class="contact-item__arrow">→</span>
+            </a>
+            <a href="#" class="contact-item">
+              <span class="contact-item__icon">💬</span>
+              <span class="contact-item__text">Telegram</span>
+              <span class="contact-item__arrow">→</span>
+            </a>
+            <a href="#" class="contact-item">
+              <span class="contact-item__icon">🎨</span>
+              <span class="contact-item__text">Behance</span>
+              <span class="contact-item__arrow">→</span>
+            </a>
+            <a href="#" class="contact-item">
+              <span class="contact-item__icon">⚡</span>
+              <span class="contact-item__text">GitHub</span>
+              <span class="contact-item__arrow">→</span>
+            </a>
+          </div>
         </div>
-        <div class="form-group">
-          <input type="email" id="email" required placeholder=" ">
-          <label for="email">Email</label>
-        </div>
-        <div class="form-group">
-          <textarea id="message" rows="5" required placeholder=" "></textarea>
-          <label for="message">Сообщение</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Отправить →</button>
-      </form>
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Имя</label>
+            <input type="text" id="name" class="input" required placeholder=" ">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" class="input" required placeholder=" ">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Сообщение</label>
+            <textarea id="message" class="input textarea" rows="5" required placeholder=" "></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-arrow btn-full">Отправить</button>
+        </form>
+      </div>
     </div>
   </section>
 
   <footer class="footer">
-    <p>&copy; 2026 Portfolio — Сделано с ❤️</p>
+    <div class="container">
+      <div class="footer__content">
+        <span class="footer__logo">&lt;dev/&gt;</span>
+        <span class="footer__copy">&copy; 2026</span>
+        <span class="footer__status">
+          <span class="status"></span> Доступен для работы
+        </span>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
